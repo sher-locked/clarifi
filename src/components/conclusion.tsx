@@ -1,25 +1,41 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { AlertTriangle, CheckCircle, XCircle, Info, ArrowRight } from "lucide-react"
+import { AlertTriangle, CheckCircle, XCircle, Info, ArrowRight } from 'lucide-react'
+import { JSX } from 'react'
 
-const tagColors = {
+interface ConclusionProps {
+  number: number;
+  title: string;
+  subText: string;
+  reasons: Array<{
+    tag: 'Good' | 'Ok' | 'Bad';
+    text: string;
+    summary: string;
+    evidences: Array<{ quality: 'high' | 'medium' | 'low'; text: string }>;
+    fallacies: Array<{ severity: 'high' | 'medium' | 'low'; text: string }>;
+  }>;
+  watchOut: string[];
+  actionPoints: string[];
+}
+
+const tagColors: Record<'Good' | 'Ok' | 'Bad', string> = {
   Good: "bg-green-500/20 text-green-300",
   Ok: "bg-yellow-500/20 text-yellow-300",
   Bad: "bg-red-500/20 text-red-300",
 }
 
-const evidenceIcons = {
+const evidenceIcons: Record<'high' | 'medium' | 'low', JSX.Element> = {
   high: <CheckCircle className="h-4 w-4 text-green-400" />,
   medium: <Info className="h-4 w-4 text-yellow-400" />,
   low: <XCircle className="h-4 w-4 text-red-400" />,
 }
 
-const fallacyIcons = {
+const fallacyIcons: Record<'high' | 'medium' | 'low', JSX.Element> = {
   high: <AlertTriangle className="h-4 w-4 text-red-400" />,
   medium: <AlertTriangle className="h-4 w-4 text-yellow-400" />,
   low: <AlertTriangle className="h-4 w-4 text-green-400" />,
 }
 
-export default function Conclusion({ number, title, subText, reasons, watchOut, actionPoints }) {
+export default function Conclusion({ number, title, subText, reasons, watchOut, actionPoints }: ConclusionProps) {
   return (
     <div className="bg-white/10 backdrop-blur-sm rounded-lg shadow-lg p-6 mb-8">
       <h2 className="text-2xl font-bold mb-2 text-white">
@@ -30,10 +46,8 @@ export default function Conclusion({ number, title, subText, reasons, watchOut, 
       <Accordion type="single" collapsible className="mb-4">
         {reasons.map((reason, index) => (
           <AccordionItem value={`item-${index}`} key={index} className="border-white/20">
-            <AccordionTrigger className="text-white hover:text-white/80">
-              <span
-                className={`inline-block px-2 py-1 rounded-full text-xs font-semibold mr-2 ${tagColors[reason.tag]}`}
-              >
+            <AccordionTrigger>
+              <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold mr-2 ${tagColors[reason.tag]}`}>
                 {reason.tag}
               </span>
               {reason.text}
@@ -92,4 +106,3 @@ export default function Conclusion({ number, title, subText, reasons, watchOut, 
     </div>
   )
 }
-

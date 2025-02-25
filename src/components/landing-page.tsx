@@ -1,5 +1,6 @@
 import { Clipboard, Link2, FileText, ImageIcon, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from 'next/image'
 
 interface LandingPageProps {
   attachedDocument?: string
@@ -25,10 +26,11 @@ export default function LandingPage({ attachedDocument, onAnalyze }: LandingPage
       {/* Main Content */}
       <main className="flex-grow flex flex-col items-center justify-center px-4 py-20">
         <div className="flex items-center gap-4 mb-12">
-          <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-YaEMgkOGyL2hBJHx4ayccz9EGFm4AY.png"
-            alt=""
-            className="w-12 h-12"
+          <Image 
+            src="/your-image-path.jpg"
+            alt="Your alt text"
+            width={500}
+            height={300}
           />
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white tracking-tight">
             see things as they are

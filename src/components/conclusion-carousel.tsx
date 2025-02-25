@@ -4,7 +4,23 @@ import { Carousel, CarouselItem } from "@/components/ui/carousel"
 import { Lightbulb } from "lucide-react"
 import Conclusion from "./conclusion"
 
-const conclusions = [
+// Add this type to ensure the data matches the expected structure
+type ConclusionData = {
+  number: number;
+  title: string;
+  subText: string;
+  reasons: Array<{
+    tag: 'Good' | 'Ok' | 'Bad';
+    text: string;
+    summary: string;
+    evidences: Array<{ quality: 'high' | 'medium' | 'low'; text: string }>;
+    fallacies: Array<{ severity: 'high' | 'medium' | 'low'; text: string }>;
+  }>;
+  watchOut: string[];
+  actionPoints: string[];
+}
+
+const conclusions: ConclusionData[] = [
   {
     number: 1,
     title: "Personalising Content with Greater Granularity",

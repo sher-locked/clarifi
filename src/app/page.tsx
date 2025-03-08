@@ -3,16 +3,37 @@
 import { useState } from "react"
 import LandingPage from "../components/landing-page"
 import ReasoningClarityReport from "../components/reasoning-clarity-report"
+import AnalysisTransition from "../components/analysis-transition"
 
 export default function Home() {
   const [showReport, setShowReport] = useState(false)
-  const [attachedDocument] = useState("YouTube Homepage Roadmap FY 25-26.pdf")
+  const [attachedDocument, setAttachedDocument] = useState<string>("")
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  const handleAnalyze = () => {
+    setIsTransitioning(true)
+  }
+
+  const handleTransitionComplete = () => {
+    setIsTransitioning(false)
+    setShowReport(true)
+  }
 
   return (
     <>
-      {!showReport && <LandingPage attachedDocument={attachedDocument} onAnalyze={() => setShowReport(true)} />}
-      {showReport && <ReasoningClarityReport onBack={() => setShowReport(false)} />}
+      {!showReport && !isTransitioning && (
+        <LandingPage 
+          attachedDocument={attachedDocument} 
+          onAnalyze={handleAnalyze}
+          onFileSelect={setAttachedDocument}
+        />
+      )}
+      {isTransitioning && (
+        <AnalysisTransition onComplete={handleTransitionComplete} />
+      )}
+      {showReport && (
+        <ReasoningClarityReport onBack={() => setShowReport(false)} />
+      )}
     </>
   )
 }
-
